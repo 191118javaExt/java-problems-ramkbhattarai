@@ -508,27 +508,36 @@ public class EvaluationService {
 	 * @return
 	 */
 	
-	public boolean isPrime(int n) {
+	public   boolean isPrime(int n) {
 		if(n < 2) return false;
 		int i = 2;
-		while( i < n/i) {
+		while( i <= n/i) {
 			if(n % i == 0) {
 				return false;
 			}
+			i++;
 		}
 		return true;
 	}
-	public int calculateNthPrime(int i) {
+	public  int calculateNthPrime(int i) {
+		if(i < 1) {
+			throw new IllegalArgumentException();
+		}
 		int count = 0;
 		int j = 2;
+		int ans = 0;
 		while(count < i) {
 			if(isPrime(j)) {
+				ans = j;
+				//System.out.println(ans);
 				count++;
 			}
+			//System.out.println("check");
 			j++;
 		}
+		//System.out.println(ans);
 		// TODO Write an implementation for this method declaration
-		return count;
+		return ans;
 	}
 
 	/**

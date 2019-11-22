@@ -6,58 +6,41 @@ import java.util.Map;
 
 public class Test {
 	
-	public static boolean includes(String[] arr, String s) { // helper method
-		for(String s1 : arr) {
-			if(s.equals(s1)) {
-				return true;
+	public static  boolean isPrime(int n) {
+		if(n < 2) return false;
+		int i = 2;
+		while( i <= n/i) {
+			if(n % i == 0) {
+				return false;
 			}
+			i++;
 		}
-		return false;
+		return true;
 	}
-	
-
-	
-	public static String rotate(String string, int key) {
-		// TODO Write an implementation for this method declaration
-		String[] alp = "abcdefghijklmnopqrstuvwxyz".split("");
-		String[] ALP = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
-		String ans = "";
-		for(int i = 0; i < string.length(); i++) {
-			char ch = string.charAt(i);
-			String s = Character.toString(ch);
-			boolean test = Character.isUpperCase(ch);
-			
-			if(test) {
-				if(includes(ALP,s)) {
-					int idx = Arrays.asList(ALP).indexOf(s);
-					int newIdx = (idx + key) % alp.length;
-					ans += ALP[newIdx];
-					}else {
-						ans += s;
-					}
-				
-			}else {
-				if(includes(alp,s)) {
-					int idx = Arrays.asList(alp).indexOf(s);
-					int newIdx = (idx + key) % alp.length;
-					ans += alp[newIdx];
-					}else {
-						ans += s;
-					}
-				
-			}
-			
-			//System.out.println(includes(alp, s));
-			
-			
+	public static int calculateNthPrime(int i) {
+		if(i < 1) {
+			throw new IllegalArgumentException();
 		}
-		//System.out.println(ans); //Xiwxmrk 1 2 3 xiwxmrk   Gzo'n zvo, Bmviyhv!
+		int count = 0;
+		int j = 2;
+		int ans = 0;
+		while(count < i) {
+			if(isPrime(j)) {
+				ans = j;
+				//System.out.println(ans);
+				count++;
+			}
+			//System.out.println("check");
+			j++;
+		}
+		System.out.println(ans);
+		// TODO Write an implementation for this method declaration
 		return ans;
 	}
 	
 	public static void main(String[] args) {
-		rotate("Gur dhvpx oebja sbk whzcf bire gur ynml qbt.",13);
-		
+		calculateNthPrime(10001);
+	//System.out.println(	isPrime(13));
 		
 	}
 
