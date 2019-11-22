@@ -507,9 +507,28 @@ public class EvaluationService {
 	 * @param i
 	 * @return
 	 */
+	
+	public boolean isPrime(int n) {
+		if(n < 2) return false;
+		int i = 2;
+		while( i < n/i) {
+			if(n % i == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
 	public int calculateNthPrime(int i) {
+		int count = 0;
+		int j = 2;
+		while(count < i) {
+			if(isPrime(j)) {
+				count++;
+			}
+			j++;
+		}
 		// TODO Write an implementation for this method declaration
-		return 0;
+		return count;
 	}
 
 	/**
