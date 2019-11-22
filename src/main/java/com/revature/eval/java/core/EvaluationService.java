@@ -1,6 +1,8 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +16,15 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String reverse(String string) {
+		String[] arr = string.split("");
+		int last = arr.length -1;
+		String ans = "";
+		for(int i = last; i >= 0; i--) {
+			ans += arr[i];
+			
+		}
 		
-		return "";
+		return ans;
 	}
 
 	/**
@@ -28,7 +37,13 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String check = phrase.replaceFirst("-", " ");
+		String[] arr = check.split(" ");
+		String ans = "";
+		for(int i = 0; i < arr.length; i++) {
+			ans += arr[i].charAt(0);
+		}
+		return ans.toUpperCase();
 	}
 
 	/**
@@ -82,17 +97,21 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
+			if((this.getSideOne() == this.getSideTwo()) && (this.getSideTwo() == this.getSideThree()))
+				return true;
 			return false;
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
+			if( this.getSideOne() == this.getSideTwo() || this.getSideOne() == this.getSideThree() || this.getSideTwo() == this.getSideThree() )
+				return true;
 			return false;
 		}
 
 		public boolean isScalene() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			return !isEquilateral() & !isIsosceles();
 		}
 
 	}
@@ -114,7 +133,40 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		Map<String, Integer> set = new HashMap<String, Integer>();
+		set.put("A", 1);
+		set.put("B", 3);
+		set.put("C", 3);
+		set.put("D", 2);
+		set.put("E", 1);
+		set.put("F", 4);
+		set.put("G", 2);
+		set.put("H", 4);
+		set.put("I", 1);
+		set.put("J", 8);
+		set.put("K", 5);
+		set.put("L", 1);
+		set.put("M", 3);
+		set.put("N", 1);
+		set.put("O", 1);
+		set.put("P", 3);
+		set.put("Q", 10);
+		set.put("R", 1);
+		set.put("S", 1);
+		set.put("T", 1);
+		set.put("U", 1);
+		set.put("V", 4);
+		set.put("W", 4);
+		set.put("X", 8);
+		set.put("Y", 4);
+		set.put("Z", 10);
+		String[] arr = string.split("");
+		int sum = 0;
+		for(String chr : arr) {
+			sum += set.get(chr.toUpperCase());
+		}
+		
+		return sum;
 	}
 
 	/**
@@ -148,9 +200,48 @@ public class EvaluationService {
 	 * Note: As this exercise only deals with telephone numbers used in
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
-	public String cleanPhoneNumber(String string) {
+	public  boolean isNumeric(String strNum) { // this is the helper function to check whether it is a digit or not
+	    return strNum.matches("-?\\d+(\\.\\d+)?");
+	}
+	
+	public  String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		if(string.contains(" "))
+			string = string.replace(" ", "");
+		if(string.contains("("))
+			string = string.replace("(", "");
+		if(string.contains(")"))
+			string = string.replace(")", "");
+		if(string.contains("."))
+			string = string.replace(".", "");
+		if(string.contains("+"))
+			string = string.replace("+", "");
+		if(string.contains("-"))
+			string = string.replace("-", "");
+		
+		//System.out.println(string);
+		String[] arr = string.split("");
+		if(arr.length > 11) {
+			throw new IllegalArgumentException();
+		}
+		if(arr.length == 11) {
+			if(arr[0].equals("1")) {
+				arr[0] = "";
+			}
+		}
+		String ans = "";
+		for(String s : arr) {
+			if(isNumeric(s))  {
+				
+				ans += s;
+			}
+		}
+		//System.out.println(ans);
+		if(ans.length() < 10) {
+			throw new IllegalArgumentException();
+		}
+		
+		return ans;
 	}
 
 	/**
@@ -164,7 +255,26 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		if(string.contains("\n"))
+			string.replace("\n", "");
+		if(string.contains(","))
+			string = string.replace(",", " ");
+		// TODO Write an implementation for this method declaration
+		Map<String, Integer> ans = new HashMap<String, Integer>();
+		String[] arr = string.split(" ");
+		for(String s : arr) {
+			if(ans.containsKey(s)) {
+				//System.out.println("Inside if");
+				 int i = ans.get(s);
+				i++;
+				ans.replace(s, i);
+				
+			}else {
+				
+				ans.put(s, 1);
+			}
+		}
+		return ans;
 	}
 
 	/**
@@ -262,9 +372,27 @@ public class EvaluationService {
 	 * @param input
 	 * @return
 	 */
-	public boolean isArmstrongNumber(int input) {
+	public  boolean isArmstrongNumber(int input) {
+		String check = Integer.toString(input);
+		//System.out.println("string "+ check);
+		int n = check.length();
+		//System.out.println("length "+ n);
+		int sum = 0;
+		int in = input;
+		while(in > 0) {
+			int remender = in % 10;
+			//System.out.println("rem = " + remender);
+			sum += Math.pow(remender, n);
+			//System.out.println("sum =" + sum);
+			in /= 10;
+		}
+		
+		
+		
+		//System.out.println(input == sum);
+		
 		// TODO Write an implementation for this method declaration
-		return false;
+		return sum == input;
 	}
 
 	/**
@@ -315,10 +443,54 @@ public class EvaluationService {
 			super();
 			this.key = key;
 		}
+		
+		public  boolean includes(String[] arr, String s) { // helper method
+			for(String s1 : arr) {
+				if(s.equals(s1)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
 
-		public String rotate(String string) {
+		
+		public  String rotate(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			String[] alp = "abcdefghijklmnopqrstuvwxyz".split("");
+			String[] ALP = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
+			String ans = "";
+			for(int i = 0; i < string.length(); i++) {
+				char ch = string.charAt(i);
+				String s = Character.toString(ch);
+				boolean test = Character.isUpperCase(ch);
+				
+				if(test) {
+					if(includes(ALP,s)) {
+						int idx = Arrays.asList(ALP).indexOf(s);
+						int newIdx = (idx + this.key) % alp.length;
+						ans += ALP[newIdx];
+						}else {
+							ans += s;
+						}
+					
+				}else {
+					if(includes(alp,s)) {
+						int idx = Arrays.asList(alp).indexOf(s);
+						int newIdx = (idx + key) % alp.length;
+						ans += alp[newIdx];
+						}else {
+							ans += s;
+						}
+					
+				}
+				
+				//System.out.println(includes(alp, s));
+				
+				
+			}
+			//System.out.println(ans); //Xiwxmrk 1 2 3 xiwxmrk   Gzo'n zvo, Bmviyhv!
+			return ans;
 		}
 
 	}
