@@ -1,44 +1,47 @@
 package com.revature.eval.java.core;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Test {
 	
-	public static boolean includes(String[] arr, String s) { // helper method
-		for(String s1 : arr) {
-			if(s.equals(s1)) {
-				return true;
+	public static  boolean isPrime2(long n) {
+		if(n < 2) return false;
+		long i = 2;
+		while( i <= n/i) {
+			if(n % i == 0) {
+				return false;
 			}
+			i++;
 		}
-		return false;
+		return true;
 	}
-	
-	public static String decode(String string) {
-		if(string.contains(" "))
-			string = string.replace(" ", "");
-		String[] arr = "abcdefghijklmnopqrstuvwxyz".split("");
-		String ans = "";
-		for(int i = 0; i < string.length(); i++) {
-			char ch = string.charAt(i);
-			String s = Character.toString(ch).toLowerCase();
-			if(includes(arr,s)) {
-				int idx = Arrays.asList(arr).indexOf(s);
-				int newIdx = (arr.length - idx - 1);
-				ans += arr[newIdx];
-				}
-			else {
-					ans += s;
-				}
-		}
+	public  static List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		System.out.println(ans);
+		List<Long> ans = new ArrayList<>();
+		long i  =2;
+		while( l > 1) {
+			//System.out.println("i = " + i);
+			//System.out.println("l = " + l);
+			if(isPrime2(i) && l % i == 0) {
+				ans.add(i);
+				l /= i;
+			}else {
+				i++;
+			}
+			
+		}
+		for(long a : ans) {
+			System.out.println(a);
+		}
 		return ans;
 	}
 	
 	public static void main(String[] args) {
-		decode("gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt");   //anobstacleisoftenasteppingstone
+		calculatePrimeFactorsOf(9);   //anobstacleisoftenasteppingstone
 	//System.out.println(	isPrime(13));   gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt
 		
 	}
