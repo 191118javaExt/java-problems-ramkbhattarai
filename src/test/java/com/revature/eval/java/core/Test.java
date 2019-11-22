@@ -6,41 +6,40 @@ import java.util.Map;
 
 public class Test {
 	
-	public static  boolean isPrime(int n) {
-		if(n < 2) return false;
-		int i = 2;
-		while( i <= n/i) {
-			if(n % i == 0) {
-				return false;
+	public static boolean includes(String[] arr, String s) { // helper method
+		for(String s1 : arr) {
+			if(s.equals(s1)) {
+				return true;
 			}
-			i++;
 		}
-		return true;
+		return false;
 	}
-	public static int calculateNthPrime(int i) {
-		if(i < 1) {
-			throw new IllegalArgumentException();
+	
+	public static String decode(String string) {
+		if(string.contains(" "))
+			string = string.replace(" ", "");
+		String[] arr = "abcdefghijklmnopqrstuvwxyz".split("");
+		String ans = "";
+		for(int i = 0; i < string.length(); i++) {
+			char ch = string.charAt(i);
+			String s = Character.toString(ch).toLowerCase();
+			if(includes(arr,s)) {
+				int idx = Arrays.asList(arr).indexOf(s);
+				int newIdx = (arr.length - idx - 1);
+				ans += arr[newIdx];
+				}
+			else {
+					ans += s;
+				}
 		}
-		int count = 0;
-		int j = 2;
-		int ans = 0;
-		while(count < i) {
-			if(isPrime(j)) {
-				ans = j;
-				//System.out.println(ans);
-				count++;
-			}
-			//System.out.println("check");
-			j++;
-		}
-		System.out.println(ans);
 		// TODO Write an implementation for this method declaration
+		System.out.println(ans);
 		return ans;
 	}
 	
 	public static void main(String[] args) {
-		calculateNthPrime(10001);
-	//System.out.println(	isPrime(13));
+		decode("gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt");   //anobstacleisoftenasteppingstone
+	//System.out.println(	isPrime(13));   gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt
 		
 	}
 

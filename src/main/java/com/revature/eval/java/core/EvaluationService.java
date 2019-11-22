@@ -572,9 +572,52 @@ public class EvaluationService {
 		 * @param string
 		 * @return
 		 */
+		
+		
+		
+		public static boolean includes(String[] arr, String s) { // helper method
+			for(String s1 : arr) {
+				if(s.equals(s1)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			if(string.contains(".")) 
+				string = string.replace(".", "");
+			if(string.contains(",")) 
+				string = string.replace(",", "");
+			if(string.contains(" ")) 
+				string = string.replace(" ", "");
+			String[] arr = "abcdefghijklmnopqrstuvwxyz".split("");
+			String ans = "";
+			for(int i = 0; i < string.length(); i++) {
+				char ch = string.charAt(i);
+				String s = Character.toString(ch).toLowerCase();
+				if(includes(arr,s)) {
+					int idx = Arrays.asList(arr).indexOf(s);
+					int newIdx = (arr.length - idx - 1);
+					ans += arr[newIdx];
+					}
+				else {
+						ans += s;
+					}
+			}
+			String result = "";
+			for(int i = 0; i < ans.length(); i++) {
+				char ch = ans.charAt(i);
+				String s = Character.toString(ch);
+				if( (i > 0) & i % 5 == 0) {
+					result +=  " "+s;
+				}else {
+					result += s;
+				}
+			}
+			//System.out.println(result);
+			return result;
 		}
 
 		/**
@@ -584,8 +627,24 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
+			if(string.contains(" "))
+				string = string.replace(" ", "");
+			String[] arr = "abcdefghijklmnopqrstuvwxyz".split("");
+			String ans = "";
+			for(int i = 0; i < string.length(); i++) {
+				char ch = string.charAt(i);
+				String s = Character.toString(ch).toLowerCase();
+				if(includes(arr,s)) {
+					int idx = Arrays.asList(arr).indexOf(s);
+					int newIdx = (arr.length - idx - 1);
+					ans += arr[newIdx];
+					}
+				else {
+						ans += s;
+					}
+			}
 			// TODO Write an implementation for this method declaration
-			return null;
+			return ans;
 		}
 	}
 
