@@ -1,8 +1,11 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -319,17 +322,44 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-//			
-//			int low = 0;
-//			int high = this.sortedList.size() -1;
-//			while(low <= high) {
-//				int mid = low + (high - low)/2;
-//				if(t < this.sortedList.get(mid)) {
-//					high = mid -1;
-//				}else if(t > this.sortedList.get(mid)) {
-//					low = mid + 1;
-//				}else return mid;
-//			}
+			Integer i;   // here we are changing the variable t to i later when we search for its index we need to refer to i.
+			if(t instanceof String) {
+				String s = (String)t; // since generic class t can't be directly or its too dangerous to do that way so we cast it at 
+				// first to string
+				i = Integer.parseInt(s);
+			}
+			else {
+				i = (int) t;  // if it is the instance of integer we need to cast it into integer
+			} 
+			
+			// after this we need to change all the elements of the sortedList into interger so that we repeat the above process for each
+			// element.
+			
+			List<Integer> list = new ArrayList<>();
+			for(T t1 : this.sortedList) {
+				Integer temp;
+				if(t1 instanceof String) {
+					String stringTemp = (String) t1;
+					temp = Integer.parseInt(stringTemp);
+				} else {
+					temp = (Integer) t1;
+				}
+				list.add(temp);
+			}
+			
+			// now its time to sort the list because binary search only works in sorted collections.
+			Collections.sort(list);
+			
+			int low = 0;
+			int high = list.size() -1;
+			while(low <= high) {
+				int mid = low + (high - low)/2;
+				if(i < list.get(mid)) {  // here we had changed the variable t to i earlier when we search for its index we need to refer to i.
+					high = mid -1;
+				}else if(i > list.get(mid)) {
+					low = mid + 1;
+				}else return mid;
+			}
 			// TODO Write an implementation for this method declaration
 			return -1;
 		}
@@ -821,8 +851,23 @@ public  boolean isPangram(String string) {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
+		
+		long amount = 1000000000L;
+		LocalDateTime ldt;
+		if(given instanceof LocalDate) {
+			ldt =  ((LocalDate) given).atTime(0,0);
+		}else {
+			ldt = (LocalDateTime) given;
+		}
+			
+			
+			return ldt.plusSeconds(amount);
+			
+		
+		
 		// TODO Write an implementation for this method declaration
-		return null;
+		//Temporal.plus(amount, given);
+		
 	}
 
 	/**
