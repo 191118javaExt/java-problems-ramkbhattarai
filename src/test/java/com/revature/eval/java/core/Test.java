@@ -3,52 +3,40 @@ package com.revature.eval.java.core;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Test {
 	
-	
-	public static boolean isNumeric(String strNum) { // this is the helper function to check whether it is a digit or not
-    return strNum.matches("-?\\d+(\\.\\d+)?");
-}
-	
-
-	public static boolean isValidIsbn(String string) {
+	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		string = string.replace("-", "");
-		String[] arr = string.split("");
-		String lastEle = arr[arr.length -1];
-		if(!isNumeric(lastEle)) {
-			if(!lastEle.equals("X")) {
-				System.out.println("inside first if");
-				return false;
+		if(string.contains("\n"))
+			string.replace("\n", "");
+		if(string.contains(","))
+			string = string.replace(",", " ");
+		// TODO Write an implementation for this method declaration
+		Map<String, Integer> ans = new HashMap<String, Integer>();
+		String[] arr = string.split(" ");
+		for(String s : arr) {
+			if(ans.containsKey(s)) {
+				//System.out.println("Inside if");
+				 int i = ans.get(s);
+				i++;
+				ans.replace(s, i);
+				
+			}else {
+				
+				ans.put(s, 1);
 			}
 		}
-		int i = 10;
-		int sum = 0;
-		for(int k = 0; k < arr.length - 1; k++) {
-			int j = Integer.parseInt(arr[k]);
-			//System.out.println(j);
-			sum += j * i;
-			i--;
-		}
-		
-		if(lastEle.equals("X")) {
-			sum += 10;
-		}else {
-			sum += Integer.parseInt(lastEle) * 1;
-		}
-		System.out.println("sum = " + sum + "  sum mod 11 = " + sum % 11);
-		if(sum % 11 == 0) {
-			return true;
-		}
-		
-		return false;
+		return ans;
 	}
-	
 	public static void main(String[] args) {
-		System.out.println(isValidIsbn("3-598-21507-0"));   //anobstacleisoftenasteppingstone
+		 //isLuhnValid("055-444-285"); 
+		//System.out.println(ans);
+		//anobstacleisoftenasteppingstone
 	//System.out.println(	isPrime(13));   gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt
 		
 	}

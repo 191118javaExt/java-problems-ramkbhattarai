@@ -4,8 +4,10 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EvaluationService {
 
@@ -317,8 +319,19 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
+//			
+//			int low = 0;
+//			int high = this.sortedList.size() -1;
+//			while(low <= high) {
+//				int mid = low + (high - low)/2;
+//				if(t < this.sortedList.get(mid)) {
+//					high = mid -1;
+//				}else if(t > this.sortedList.get(mid)) {
+//					low = mid + 1;
+//				}else return mid;
+//			}
 			// TODO Write an implementation for this method declaration
-			return 0;
+			return -1;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -353,9 +366,44 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public String toPigLatin(String string) {
+	
+
+	
+	public  String changeWord(String word) {
+		String vowels = "aeiou";
+		String ans = "";
+		
+		for(int i = 0, j = 1; j < word.length(); j++) {
+			String chr = word.substring(i, j);
+			if(chr.equals("q")) {
+				return word.substring(2) + word.substring(0,2)+ "ay";
+			}
+			if(vowels.contains(chr)) {
+				return word.substring(i) + word.substring(0, i) + "ay";
+			}else {
+				i++;
+			}
+		}
+		
+		
+		return ans;
+	}
+	
+	public  String toPigLatin(String string) {
+		String ans = "";
+		String[] arr = string.split(" ");
+		int i =0;
+		for(String s : arr) {
+			if(i == arr.length -1) {
+				ans += changeWord(s);
+			}else {
+				
+				ans += changeWord(s) + " ";
+			}
+			i++;
+		}
 		// TODO Write an implementation for this method declaration
-		return null;
+		return ans;
 	}
 
 	/**
@@ -711,7 +759,11 @@ public class EvaluationService {
 		int i = 10;
 		int sum = 0;
 		for(int k = 0; k < arr.length - 1; k++) {
-			int j = Integer.parseInt(arr[k]);
+			String s = arr[k];
+			if(!isNumeric(s)) {
+				return false;
+			}
+			int j = Integer.parseInt(s);
 			//System.out.println(j);
 			sum += j * i;
 			i--;
@@ -743,9 +795,21 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public boolean isPangram(String string) {
+public  boolean isPangram(String string) {
+		
+		if(string.length() == 0) return false;
+		if(string.contains(" "))
+			string = string.replace(" ", "");
+		//System.out.println(string);
 		// TODO Write an implementation for this method declaration
-		return false;
+		Set<String> set = new HashSet<>();
+		for(int i =0; i < string.length(); i++) {
+			String s = Character.toString(string.charAt(i));
+				
+				set.add(s);
+			
+		}
+		return set.size() == 26;
 	}
 
 	/**
@@ -775,8 +839,22 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
+		Set<Integer> hset = new HashSet<>();
 		// TODO Write an implementation for this method declaration
-		return 0;
+		for(int n : set) {
+			int j = 1;
+			
+				while(n* j < i) {
+					hset.add(n*j);
+					j++;
+				}
+			
+		}
+		int sum = 0;
+		for(int k : hset) {
+			sum += k;
+		}
+		return sum;
 	}
 
 	/**
@@ -816,8 +894,34 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
+		if(string.length() <= 1) return false;
+		if(string.contains(" "))
+			string = string.replace(" ", "");
+		if(string.contains("-"))
+			return false;
+		String [] arr = string.split("");
+		for(String s : arr) {
+			if(!isNumeric(s)) {
+				return false;
+			}
+		}
+		for(int i = arr.length - 2; i > 0; i -= 2) {
+			int j = Integer.parseInt(arr[i]);
+			int mul = j * 2;
+			if( mul > 9) {
+				mul -= 9;
+			}
+			arr[i] = Integer.toString(mul);	
+		}
+		
+		int sum = 0;
+		for(int i = 0; i < arr.length; i++) {
+			sum += Integer.parseInt(arr[i]);
+		}
+		
+		
 		// TODO Write an implementation for this method declaration
-		return false;
+		return sum % 10 == 0;
 	}
 
 	/**
@@ -847,9 +951,52 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
-	}
+	public  int[] isNum(String s) {
+		String [] arr = 	s.split(" ");
+		int [] ans = new int[2];
+		int j = 0;
+		for(int i = 0; i < arr.length; i++) {
+			if(isNumeric(arr[i])) {
+				ans[j] = Integer.parseInt(arr[i]);
+				j++;
+			}
+		}
+		//System.out.println(Arrays.toString(ans));
+		return ans;
+		}
+		
+		public  int solveWordProblem(String string) {
+			if(string.contains("?"))
+				string = string.replace("?", "");
+			// TODO Write an implementation for this method declaration
+			Set<String> set = new HashSet<>();
+			set.add("plus");
+			set.add("minus");
+			set.add("multiplied");
+			set.add("divided");
+			String[] s = string.split(" ");
+			String check = "";
+			for(String s1 : s) {
+				if(set.contains(s1)) {
+					check += s1;
+				}
+			}
+			int [] values = isNum(string);
+			
+			switch(check) {
+			case"plus":
+				return values[0] + values[1];
+			case"minus":
+				return values[0] - values[1];
+			case"divided":
+				return values[0] / values[1];
+			case"multiplied":
+				return values[0] * values[1];
+				default:
+					return -1;
+				
+			}
+			
+		}
 
 }
