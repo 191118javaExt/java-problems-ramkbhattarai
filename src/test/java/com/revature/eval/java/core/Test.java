@@ -10,16 +10,21 @@ import java.util.Set;
 
 public class Test {
 	
-	public Map<String, Integer> wordCount(String string) {
+	public static Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		if(string.contains("\n"))
-			string.replace("\n", "");
+		if(string.contains("\n")) {
+			//System.out.println("inside");
+			string = string.replace("\n", "");
+		}
 		if(string.contains(","))
 			string = string.replace(",", " ");
+		//System.out.println(string);
 		// TODO Write an implementation for this method declaration
 		Map<String, Integer> ans = new HashMap<String, Integer>();
 		String[] arr = string.split(" ");
+		//System.out.println(Arrays.toString(arr));
 		for(String s : arr) {
+			System.out.print(s);
 			if(ans.containsKey(s)) {
 				//System.out.println("Inside if");
 				 int i = ans.get(s);
@@ -31,10 +36,11 @@ public class Test {
 				ans.put(s, 1);
 			}
 		}
+		
 		return ans;
 	}
 	public static void main(String[] args) {
-		 //isLuhnValid("055-444-285"); 
+		wordCount("one,\ntwo,\nthree"); 
 		//System.out.println(ans);
 		//anobstacleisoftenasteppingstone
 	//System.out.println(	isPrime(13));   gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt

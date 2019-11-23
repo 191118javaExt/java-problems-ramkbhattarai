@@ -259,7 +259,7 @@ public class EvaluationService {
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
 		if(string.contains("\n"))
-			string.replace("\n", "");
+			string = string.replace("\n", "");
 		if(string.contains(","))
 			string = string.replace(",", " ");
 		// TODO Write an implementation for this method declaration
