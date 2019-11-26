@@ -461,7 +461,7 @@ public class EvaluationService {
 		while(in > 0) {
 			int remender = in % 10;
 			//System.out.println("rem = " + remender);
-			sum += Math.pow(remender, n);
+			sum = sum + (int) Math.pow(remender, n);
 			//System.out.println("sum =" + sum);
 			in /= 10;
 		}
@@ -855,9 +855,10 @@ public  boolean isPangram(String string) {
 		long amount = 1000000000L;
 		LocalDateTime ldt;
 		if(given instanceof LocalDate) {
-			ldt =  ((LocalDate) given).atTime(0,0);
+			ldt =  ((LocalDate) given).atTime(0,0);// casting given to LocalDate so as to get the method
+			//atTime to return localDateTime
 		}else {
-			ldt = (LocalDateTime) given;
+			ldt = (LocalDateTime) given; // casting given to LocalDateTime.
 		}
 			
 			
