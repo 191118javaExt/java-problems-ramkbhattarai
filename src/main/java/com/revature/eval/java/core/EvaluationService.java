@@ -402,7 +402,7 @@ public class EvaluationService {
 	public  String changeWord(String word) {
 		String vowels = "aeiou";
 		String ans = "";
-		
+		String[] letters = word.split("");
 		for(int i = 0, j = 1; j < word.length(); j++) {
 			String chr = word.substring(i, j);
 			if(chr.equals("q")) {
